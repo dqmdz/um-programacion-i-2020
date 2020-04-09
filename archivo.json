@@ -1,0 +1,26 @@
+{
+ "Nombre": "Lucas Fozzatti",
+ "Monto": "$600000",
+ "Descripcion": "Toyota Hilux",
+ "Forma de pago": "contado\n"
+}{
+ "Nombre": "Nicolas Aldeco",
+ "Monto": "$20000",
+ "Descripcion": "Notebook compaq presario 21",
+ "Forma de pago": "Tarjeta\n"
+}{
+ "Nombre": "Agustin Gauchat",
+ "Monto": "$17000" ,
+ "Descripcion": "Xiaomi Note 8",
+ "Forma de pago": "Tarjeta\n"
+}{
+ "Nombre": "Juan Perez",
+ "Monto": "$9000",
+ "Descripcion": "Epson Stylus xp-201",
+ "Forma de pago": "Contado\n"
+}{
+ "Nombre": "Rodrigo Alvarez",
+ "Monto": "$4000",
+ "Descripcion": "MotoG 5",
+ "Forma de pago": "Contado\n"
+}

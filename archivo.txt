@@ -1,0 +1,5 @@
+Lucas Fozzatti,$600000,Toyota Hilux,contado
+Nicolas Aldeco,$20000,Notebook compaq presario 21,Tarjeta
+Agustin Gauchat,$17000,Xiaomi Note 8,Tarjeta
+Juan Perez,$9000,Epson Stylus xp-201,Contado
+Rodrigo Alvarez,$4000,MotoG 5,Contado
