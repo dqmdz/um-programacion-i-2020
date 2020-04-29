@@ -1,5 +1,6 @@
 from io import open
-class text():
+class error():
+    
    
     def reading_text(self):
         lista = []
@@ -11,14 +12,11 @@ class text():
         for k in lista:
             venta = k.split(',')
             print(venta)
-            for esp in venta:
-                if esp != '':
-                    continue
-                else:
-                    raise Exception('Error en >> archivo.txt')
+            if "" in venta:
+                raise Exception ("error en archivo.txt")
                
-            print(esp)
+            
         
             
-t=text()
+t=error()
 t.reading_text()
