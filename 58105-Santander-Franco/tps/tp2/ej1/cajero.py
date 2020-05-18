@@ -2,11 +2,19 @@ class CombinacionError(Exception):
     pass
 
 
-class MultplicidadError(Exception):
+class CantidadError(Exception):
     pass
 
 
-class CantidadError(Exception):
+class MultiplicidadError(Exception):
+    pass
+
+
+class CargaError(Exception):
+    pass
+
+
+class MontoError(Exception):
     pass
 
 
@@ -18,9 +26,7 @@ class Cajero():
         self.cant1000 = []
         self.montos_p = []
         self.monto_total = 0
-        self.b_extr = [0, 0, 0, 0]
         self.cantidades = []
-        self.sacado = []
         self.total = 0
 
     def agregar_dinero(self, billetes):
@@ -63,35 +69,38 @@ class Cajero():
         return text1
 
     def extraer_dinero(self, monto):
-        tx = ""
         tx2 = ""
+        self.b_extr = [0, 0, 0, 0]
         self.caja = [len(self.cant1000), len(self.cant500),
                      len(self.cant200), len(self.cant100)]
         self.total += (len(self.cant1000) * 1000) + (len(self.cant500) * 500)
         self.total += (len(self.cant200) * 200) + (len(self.cant100) * 100)
-        try:
-            if monto % 100 != 0:
-                raise MultplicidadError
-        except MultplicidadError:
-            return "Error. El monto es incorrecto"
-        try:
-            if monto >= self.total:
-                raise CantidadError
-        except CantidadError:
-            return "Error. Quiere sacar mas dinero de lo que se puede"
+        if self.caja == [0, 0, 0, 0]:
+            raise CargaError("Error: El cajero no esta cargado de billetes")
+        if monto < 0:
+            raise MontoError("Error.Ingrese un monto mayor a cero")
+        if monto % 100 != 0:
+            raise MultiplicidadError("Error. El monto es incorrecto")
+        if monto > self.total:
+            raise CantidadError("Error. Quiere sacar mas dinero de lo que se"
+                                " puede")
         val = [1000, 500, 200, 100]
         for i in range(len(val)):
             while self.caja[i] > 0 and monto >= val[i]:
                 monto -= val[i]
                 self.caja[i] -= 1
                 self.b_extr[i] += 1
-        try:
-            if monto != 0:
-                raise CombinacionError
-        except CombinacionError:
-            tx += "Error. No hay una combinacion de billetes que nos permita "
-            tx += "extraer ese monto."
-            return tx
+                if i == 0:
+                    self.cant1000.pop()
+                elif i == 1:
+                    self.cant500.pop()
+                elif i == 2:
+                    self.cant200.pop()
+                else:
+                    self.cant100.pop()
+        if monto != 0:
+            raise CombinacionError("Error. No hay una combinacion de billetes"
+                                   " que nos permita extraer ese monto.")
         for i in range(len(self.b_extr)):
             if i == 0:
                 if self.b_extr[i] != 0:
