@@ -1,4 +1,4 @@
-from Cajero_automatico import Cajero_automatico
+from Cajero_automatico import Cajero_automatico, Monto_incorrecto
 import Billete as B
 import unittest
 from parameterized import parameterized
@@ -41,9 +41,13 @@ class Test_cajero(unittest.TestCase):
         self.llenar_cajero(cantidades_iniciales[0], cantidades_iniciales[1],
                            cantidades_iniciales[2], cantidades_iniciales[3])
         # extraer
-        billetes_ext = self.cajero.extraer_dinero(monto_extraer)
-        extraccion = self.contar_extraccion(billetes_ext)
-        self.assertEqual(extraccion, ext_esperado)
+        try:
+            billetes_ext = self.cajero.extraer_dinero(monto_extraer)
+        except Monto_incorrecto as context:
+            self.assertEqual(ext_esperado, context.message)
+        else:           
+            extraccion = self.contar_extraccion(billetes_ext)
+            self.assertEqual(extraccion, ext_esperado)
 
     @parameterized.expand([
         ((0, 0, 20, 10), 7000, 10, [0, 0, 2, 6]),

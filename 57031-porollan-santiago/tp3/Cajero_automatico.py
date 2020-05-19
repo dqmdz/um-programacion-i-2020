@@ -1,6 +1,17 @@
 import Billete as b
 
 
+class Monto_incorrecto(Exception):
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = None
+
+    def __str__(self):
+        return self.message
+
+
 class Cajero_automatico():
     def __init__(self):
         self.almacen_de_billetes = {'100': [], '200': [],
@@ -26,16 +37,11 @@ class Cajero_automatico():
 
     def extraer_dinero(self, monto):
         self.verificar(monto)
-        error = self.verificar(monto)
-        if error:
-            return error
         return self.extraer_desde_mayor(monto)
 
     def extraer_dinero_cambio(self, monto, porcentaje):
         monto_cambio = int(monto * porcentaje / 100)
-        error = self.verificar(monto, porcentaje)
-        if error:
-            return error
+        self.verificar(monto, porcentaje)
         # redondear
         if monto_cambio % 100 != 0:
             monto_cambio += (100 - int(str(monto_cambio)[-2:]))
@@ -54,12 +60,11 @@ class Cajero_automatico():
 
     def verificar(self, monto, porcentaje=0):
         if monto % 100 != 0:
-            return "Error. El monto es incorrecto"
+            raise(Monto_incorrecto("Error. El monto es incorrecto"))
         if monto > self.valor_total:
-            return "Error. Quiero sacar mas dinero de lo que puedo"
+            raise(Monto_incorrecto("Error. Quiero sacar mas dinero de lo que puedo"))
         if porcentaje > 100 or porcentaje < 0:
-            return "Error. El porcentaje de cambio es incorrecto"
-        return False
+            raise(Monto_incorrecto("Error. El porcentaje de cambio es incorrecto"))
 
     def extraer_desde_mayor(self, monto):
         billetes = []
@@ -78,7 +83,7 @@ class Cajero_automatico():
                 monto -= 100
             else:
                 self.agregar_dinero(billetes)
-                return "Error. No hay una combinacion de billetes que nos permita extraer ese monto"
+                raise(Monto_incorrecto("Error. No hay una combinacion de billetes que nos permita extraer ese monto"))
         return billetes
 
     def extraer_desde_menor(self, monto_cambio, monto):
@@ -102,7 +107,7 @@ class Cajero_automatico():
                 agregado += 1
             if agregado == 11:
                 self.agregar_dinero(billetes)
-                return "Error. No hay una combinacion de billetes que nos permita extraer ese monto"        
+                raise(Monto_incorrecto("Error. No hay una combinacion de billetes que nos permita extraer ese monto"))   
         return billetes, agregado
 
     def __pop(self, monto):
