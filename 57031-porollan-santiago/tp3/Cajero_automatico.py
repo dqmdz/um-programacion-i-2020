@@ -65,6 +65,10 @@ class Cajero_automatico():
             raise(Monto_incorrecto("Error. Quiero sacar mas dinero de lo que puedo"))
         if porcentaje > 100 or porcentaje < 0:
             raise(Monto_incorrecto("Error. El porcentaje de cambio es incorrecto"))
+        if monto < 0:
+            raise(Monto_incorrecto("Error. Se ha ingresado un monto negativo"))
+        if self.valor_total == 0:
+            raise(Monto_incorrecto("Error. No hay billetes cargados"))
 
     def extraer_desde_mayor(self, monto):
         billetes = []
