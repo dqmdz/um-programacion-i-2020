@@ -1,7 +1,6 @@
 import unittest
 from billete import Billete1000, Billete500
-from cajero import Cajero, CombinacionError, MontoError, MultiplicidadError
-from cajero import CantidadError, PorcentajeError, CargaError
+from cajero import Cajero
 
 
 class TestCajero(unittest.TestCase):
@@ -35,55 +34,14 @@ class TestCajero(unittest.TestCase):
                             "4 billetes de $500\n")
 
     def test_extraer3(self):
-        with self.assertRaises(CombinacionError):
-            self.cajero.extraer_dinero(12100)
+        d = self.cajero.extraer_dinero(12100)
+        self.assertEqual(d, "Error. No hay una combinacion de billetes que" +
+                            " nos permita extraer ese monto.")
 
     def test_extraer4(self):
         e = self.cajero.extraer_dinero_cambio(7000, 10)
         self.assertEqual(e, "2 billetes de $500\n" +
                             "6 billetes de $1000\n")
-
-    def test_extraer5(self):
-        with self.assertRaises(MontoError):
-            self.cajero.extraer_dinero(-5000)
-
-    def test_extraer6(self):
-        with self.assertRaises(MultiplicidadError):
-            self.cajero.extraer_dinero(6850)
-
-    def test_extraer7(self):
-        with self.assertRaises(CantidadError):
-            self.cajero.extraer_dinero(25000)
-
-    def test_extraer8(self):
-        with self.assertRaises(PorcentajeError):
-            self.cajero.extraer_dinero_cambio(7000, -110)
-    
-    def test_extraer9(self):
-        with self.assertRaises(PorcentajeError):
-            self.cajero.extraer_dinero_cambio(7000, 110)
-
-    def test_extraer10(self):
-        with self.assertRaises(MontoError):
-            self.cajero.extraer_dinero_cambio(-5000, 10)
-
-    def test_extraer11(self):
-        with self.assertRaises(MultiplicidadError):
-            self.cajero.extraer_dinero_cambio(6850, 10)
-    
-    def test_extraer12(self):
-        with self.assertRaises(CantidadError):
-            self.cajero.extraer_dinero_cambio(25000, 10)
-
-    def test_extraer13(self):
-        c = self.cajero.extraer_dinero_cambio(20000, 0)
-        with self.assertRaises(CargaError):
-            self.cajero.extraer_dinero_cambio(5000, 0)
-
-    def test_extraer14(self):
-        c = self.cajero.extraer_dinero(20000)
-        with self.assertRaises(CargaError):
-            self.cajero.extraer_dinero(5000)
 
 
 if __name__ == "__main__":

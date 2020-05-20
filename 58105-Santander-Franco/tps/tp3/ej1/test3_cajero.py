@@ -1,6 +1,7 @@
 import unittest
 from billete import Billete1000, Billete500, Billete200
-from cajero import Cajero
+from cajero import Cajero, MontoError, CombinacionError, MultiplicidadError
+from cajero import CantidadError,CargaError
 
 
 class TestCajero(unittest.TestCase):
@@ -39,9 +40,25 @@ class TestCajero(unittest.TestCase):
                             "4 billetes de $500\n")
 
     def test_extraer3(self):
-        d = self.cajero.extraer_dinero(12100)
-        self.assertEqual(d, "Error. No hay una combinacion de billetes"
-                            " que nos permita extraer ese monto.")
+        with self.assertRaises(CombinacionError):
+            self.cajero.extraer_dinero(12100)
+
+    def test_extraer5(self):
+        with self.assertRaises(MontoError):
+            self.cajero.extraer_dinero(-5000)
+
+    def test_extraer6(self):
+        with self.assertRaises(MultiplicidadError):
+            self.cajero.extraer_dinero(6850)
+    
+    def test_extraer7(self):
+        with self.assertRaises(CantidadError):
+            self.cajero.extraer_dinero(25000)
+
+    def test_extraer13(self):
+        c = self.cajero.extraer_dinero(23000)
+        with self.assertRaises(CargaError):
+            self.cajero.extraer_dinero(5000)
 
 
 if __name__ == "__main__":

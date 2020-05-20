@@ -2,7 +2,7 @@ class CombinacionError(Exception):
     pass
 
 
-class MultplicidadError(Exception):
+class MultiplicidadError(Exception):
     pass
 
 
@@ -14,6 +14,14 @@ class PorcentajeError(Exception):
     pass
 
 
+class MontoError(Exception):
+    pass
+
+
+class CargaError(Exception):
+    pass
+
+
 class Cajero():
     def __init__(self):
         self.cant100 = []
@@ -22,11 +30,8 @@ class Cajero():
         self.cant1000 = []
         self.montos_p = []
         self.monto_total = 0
-        self.b_extr = [0, 0, 0, 0]
         self.cantidades = []
-        self.sacado = []
         self.total = 0
-        self.cambio2 = 0
 
     def agregar_dinero(self, billetes):
         for i in billetes:
@@ -36,7 +41,7 @@ class Cajero():
                 self.cant500.append(i.denominacion)
             elif i.denominacion == 200:
                 self.cant200.append(i.denominacion)
-            else:
+            else :
                 self.cant100.append(i.denominacion)
 
     def contar_dinero(self):
@@ -68,35 +73,38 @@ class Cajero():
         return text1
 
     def extraer_dinero(self, monto):
-        tx = ""
         tx2 = ""
+        self.b_extr = [0, 0, 0, 0]
         self.caja = [len(self.cant1000), len(self.cant500),
                      len(self.cant200), len(self.cant100)]
         self.total += (len(self.cant1000) * 1000) + (len(self.cant500) * 500)
         self.total += (len(self.cant200) * 200) + (len(self.cant100) * 100)
-        try:
-            if monto % 100 != 0:
-                raise MultplicidadError
-        except MultplicidadError:
-            return "Error. El monto es incorrecto"
-        try:
-            if monto >= self.total:
-                raise CantidadError
-        except CantidadError:
-            return "Error. Quiere sacar mas dinero de lo que se puede"
+        if self.caja == [0, 0, 0, 0]:
+            raise CargaError("Error: El cajero no esta cargado de billetes")
+        if monto < 0:
+            raise MontoError("Error.Ingrese un monto mayor a cero")
+        if monto % 100 != 0:
+            raise MultiplicidadError("Error. El monto es incorrecto")
+        if monto > self.total:
+            raise CantidadError("Error. Quiere sacar mas dinero de lo que se"
+                                " puede")
         val = [1000, 500, 200, 100]
         for i in range(len(val)):
             while self.caja[i] > 0 and monto >= val[i]:
                 monto -= val[i]
                 self.caja[i] -= 1
                 self.b_extr[i] += 1
-        try:
-            if monto != 0:
-                raise CombinacionError
-        except CombinacionError:
-            tx += "Error. No hay una combinacion de billetes que nos permita "
-            tx += "extraer ese monto."
-            return tx
+                if i == 0:
+                    self.cant1000.pop()
+                elif i == 1:
+                    self.cant500.pop()
+                elif i == 2:
+                    self.cant200.pop()
+                else:
+                    self.cant100.pop()
+        if monto != 0:
+            raise CombinacionError("Error. No hay una combinacion de billetes"
+                                   " que nos permita extraer ese monto.")
         for i in range(len(self.b_extr)):
             if i == 0:
                 if self.b_extr[i] != 0:
@@ -113,32 +121,30 @@ class Cajero():
         return tx2
 
     def extraer_dinero_cambio(self, monto, porcentaje):
-        tx = ""
         tx2 = ""
+        self.b_extr = [0, 0, 0, 0]
+        self.cambio2 = 0
         self.caja = [len(self.cant1000), len(self.cant500),
                      len(self.cant200), len(self.cant100)]
         self.total += (len(self.cant1000) * 1000) + (len(self.cant500) * 500)
         self.total += (len(self.cant200) * 200) + (len(self.cant100) * 100)
+        # Notifico si el cajero esta vacio
+        if self.caja == [0, 0, 0, 0]:
+            raise CargaError("Error: El cajero no esta cargado de billetes")
         # Notifico en caso de que ingresen un monto no aceptado
-        try:
-            if monto % 100 != 0:
-                raise MultplicidadError
-        except MultplicidadError:
-            return "Error. El monto es incorrecto"
+        if monto < 0:
+            raise MontoError("Error.Ingrese un monto mayor a cero")
+        if monto % 100 != 0:
+            raise MultiplicidadError("Error. El monto es incorrecto")
         # Notifico en caso de que el dinero en el cajero
         # sea menor que el monto ingresado
-        try:
-            if monto >= self.total:
-                raise CantidadError
-        except CantidadError:
-            return "Error. Quiere sacar mas dinero de lo que se puede"
+        if monto > self.total:
+            raise CantidadError("Error. Quiere sacar mas dinero de lo que se"
+                                " puede")
         # Notifico en caso de que ingresen un porcentaje no apto
-        try:
-            if porcentaje <= 0 and porcentaje >= 100:
-                raise PorcentajeError
-        except PorcentajeError:
-            return "Error. Ingrese un porcentaje entre 0 y 100"
-        # Paso al entero ingresado como porcentaje a decimales 
+        if porcentaje < 0 or porcentaje > 100:
+            raise PorcentajeError("Error. Ingrese un porcentaje entre 1 y 100")
+        # Paso al entero ingresado como porcentaje a decimales
         porcentaje = porcentaje * 0.01
         # Calculo el cambio a dar
         cambio = round(monto * porcentaje)
@@ -160,9 +166,17 @@ class Cajero():
                 cambio -= val[i]
                 self.caja[i] -= 1
                 self.b_extr[i] += 1
+                if i == 0:
+                    self.cant100.pop()
+                elif i == 1:
+                    self.cant200.pop()
+                elif i == 2:
+                    self.cant500.pop()
+                else:
+                    self.cant1000.pop()
         # En caso de que el cambio sea distinto de cero, porque no
         # Se ejecutaron los while al no tener cierto billete para dar
-        # El cambio, le sumo 100 a cambio y sel.cambio2 y vuelvo a hacer 
+        # El cambio, le sumo 100 a cambio y sel.cambio2 y vuelvo a hacer
         # La extraccion de billetes hasta que el cambio sea cero
         while cambio != 0:
             cambio += 100
@@ -172,8 +186,16 @@ class Cajero():
                     cambio -= val[i]
                     self.caja[i] -= 1
                     self.b_extr[i] += 1
-        # Le resto el monto final del cambio al monto ingresado para poder hacer
-        # La extraccion del monto en forma normal
+                    if i == 0:
+                        self.cant100.pop()
+                    elif i == 1:
+                        self.cant200.pop()
+                    elif i == 2:
+                        self.cant500.pop()
+                    else:
+                        self.cant1000.pop()
+        # Le resto el monto final del cambio al monto ingresado para poder
+        # Hacer la extraccion del monto en forma normal
         monto -= self.cambio2
         # Invierto los valores de la caja y la lista para que se extraiga los
         # Billetes de forma normal
@@ -185,16 +207,20 @@ class Cajero():
                 monto -= val[i]
                 self.caja[i] -= 1
                 self.b_extr[i] += 1
+                if i == 0:
+                    self.cant1000.pop()
+                elif i == 1:
+                    self.cant500.pop()
+                elif i == 2:
+                    self.cant200.pop()
+                else:
+                    self.cant100.pop()
         # Notifico en caso de que el monto no sea cero, por ende no hay direno
         # disponible, con lo que hay en el cajero,
         # para devolver al cliente
-        try:
-            if monto != 0:
-                raise CombinacionError
-        except CombinacionError:
-            tx += "Error. No hay una combinacion de billetes que nos permita "
-            tx += "extraer ese monto."
-            return tx
+        if monto != 0:
+            raise CombinacionError("Error. No hay una combinacion de billetes"
+                                   " que nos permita extraer ese monto.")
         self.b_extr = self.b_extr[::-1]
         # Imprimo el resultado
         for i in range(len(self.b_extr)):
