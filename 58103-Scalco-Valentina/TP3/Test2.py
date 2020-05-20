@@ -1,6 +1,6 @@
 import unittest
-from Cajero import Atm
-from Billetes import Billete_1000, Billete_500, Billete_200, Billete_100
+from Cajero2 import Atm, CantidadError, ValueError, MultiplicidadError, PorcentajeError, BilleteError, DisponibilidadError
+from Billetes2 import Billete_1000, Billete_500, Billete_200, Billete_100
 
 
 class TestAtm(unittest.TestCase):
@@ -12,6 +12,7 @@ class TestAtm(unittest.TestCase):
         self.atm1 = Atm()
         self.atm2 = Atm()
         self.atm3 = Atm()
+        self.atm4 = Atm()
 
         lista_billetes = []
         lista_billetes = [self.onek for valor in range(0, 10)]
@@ -36,12 +37,16 @@ class TestAtm(unittest.TestCase):
         self.assertEqual(self.atm1.extraer_dinero(5000), ["5 billetes de $1000"])
 
     def test_set_1_c(self):
-        error = "Error. Monto no válido, ingrese un monto menor"
-        self.assertEqual(self.atm1.extraer_dinero(12000), error)
+        with self.assertRaises(CantidadError):
+            self.atm1.extraer_dinero(12000)
 
     def test_set_1_d(self):
-        error = "Error. Monto no válido, ingrese un monto multiplo de 100"
-        self.assertEqual(self.atm1.extraer_dinero(5520), error)
+        with self.assertRaises(MultiplicidadError):
+            self.atm1.extraer_dinero(5520)
+
+    def test_set_1_e(self):
+        with self.assertRaises(ValueError):
+            self.atm1.extraer_dinero(-1000)
 
     def test_set_2_a(self):
         resultado = ["0 billetes de $100, Parcial $0",
@@ -57,8 +62,16 @@ class TestAtm(unittest.TestCase):
             "4 billetes de $500"])
 
     def test_set_2_d(self):
-        error = "Error. No hay una combinación de billetes que nos permita extraer ese monto"
-        self.assertEqual(self.atm2.extraer_dinero(12100), error)
+        with self.assertRaises(BilleteError):
+            self.atm2.extraer_dinero(12100)
+
+    def test_set_2_e(self):
+        self.assertEqual(self.atm2.extraer_dinero_cambio(10000, 10), ["0 billetes de $100", "0 billetes de $200",
+                        "2 billetes de $500", "9 billetes de $1000"])
+
+    def test_set_2_f(self):
+        with self.assertRaises(PorcentajeError):
+            self.atm2.extraer_dinero_cambio(10000, 120)
 
     def test_set_3_a(self):
         resultado = ["0 billetes de $100, Parcial $0",
@@ -73,8 +86,16 @@ class TestAtm(unittest.TestCase):
         self.assertEqual(self.atm3.extraer_dinero(12000), ["10 billetes de $1000", "4 billetes de $500", "0 billetes de $200"])
 
     def test_set_3_d(self):
-        error = "Error. No hay una combinación de billetes que nos permita extraer ese monto"
-        self.assertEqual(self.atm3.extraer_dinero(12100), error)
+        with self.assertRaises(BilleteError):
+            self.atm3.extraer_dinero(12100)
+
+    def test_set_3_e(self):
+        self.assertEqual(self.atm3.extraer_dinero_cambio(7000, 10), ["0 billetes de $100", "5 billetes de $200",
+                        "0 billetes de $500", "6 billetes de $1000"])
+
+    def test_set_4_a(self):
+        with self.assertRaises(DisponibilidadError):
+            self.atm4.extraer_dinero(1000)
 
 
 if __name__ == '__main__':
