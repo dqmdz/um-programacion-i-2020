@@ -11,6 +11,7 @@ class CajeroTest(unittest.TestCase):
         self.primerSet = Cajero()
         self.segundoSet = Cajero()
         self.tercerSet = Cajero()
+        self.empty = Cajero()
 
         billetera1 = [Billete1000() for item in range(10)]
 
@@ -24,6 +25,11 @@ class CajeroTest(unittest.TestCase):
         self.primerSet.agregar_dinero(billetera1)
         self.segundoSet.agregar_dinero(billetera2)
         self.tercerSet.agregar_dinero(billetera3)
+
+    def test_cajero_vacio(self):
+
+        with self.assertRaises(Exception):
+            self.empty.extraer_dinero(100)
 
     def test_contar_a(self):
         dinero_contado = self.primerSet.contado_imprimir()

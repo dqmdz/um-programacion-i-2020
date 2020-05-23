@@ -80,13 +80,14 @@ class Cajero():
         return string
 
     def extraer_dinero(self, monto, porcentaje_cambio):
+        if not self.dinero or self.dinero["pesos"] == []:
+            raise ExtractionError("No hay billetes en el cajero")
+
         self.dinero["pesos"].sort(key=lambda valor: valor.getDenominacion())
 
         total = self.contar_dinero()["pesos"][1]
 
-        if self.dinero["pesos"] == []:
-            raise ExtractionError("No hay billetes en el cajero")
-        elif monto > total:
+        if monto > total:
             raise InsufficientFunds("No hay suficiente dinero en la cuenta")
         elif monto % 100 != 0:
             raise MinimumValueError("El monto debe ser multiplo de 100")
