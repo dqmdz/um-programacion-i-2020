@@ -10,6 +10,14 @@ class NegativoError(Exception):
     pass
 
 
+class CombinacionError(Exception):
+    pass
+
+
+class VacioError(Exception):
+    pass
+
+
 class Cajero():
 
     def __init__(self):
@@ -58,28 +66,21 @@ class Cajero():
         self.entrega = []
         n = 0
 
-        try:
-            if pedido < 0:
-                raise NegativoError
-        except NegativoError:
+        if self.suma == 0:
             self.transaccion = False
-            return("Error: No se permiten montos negativos")
+            raise VacioError
 
-        try:
-            if (pedido % 100 != 0):
-                raise MultipoError
-
-        except MultipoError:
+        if pedido < 0:
             self.transaccion = False
-            return("Error: El monto no es multiplo de 100")
+            raise NegativoError
 
-        try:
-            if (self.suma < pedido) and (self.transaccion is True):
-                raise ExcesoError
-
-        except ExcesoError:
+        if self.suma < pedido:
             self.transaccion = False
-            return("Error: Fondos del banco insuficientes")
+            raise ExcesoError
+
+        if pedido % 100 != 0:
+            self.transaccion = False
+            raise MultipoError
 
         while (self.pedido != 0) and (self.transaccion is True):
 
@@ -97,8 +98,7 @@ class Cajero():
                     if (self.pedido != 0) and (redondeo != 0):
                         return(self.pedido)
                     else:
-                        return("No es posible realizar esa combinacion")
-                    exit()
+                        raise(CombinacionError)
 
                 if (len(self.quini) != 0) and (self.pedido >= 500):
 
