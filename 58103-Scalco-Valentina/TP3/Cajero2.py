@@ -5,6 +5,10 @@ class CantidadError(Exception):
     pass
 
 
+class ValueError(Exception):
+    pass
+
+
 class MultiplicidadError(Exception):
     pass
 
@@ -14,6 +18,10 @@ class PorcentajeError(Exception):
 
 
 class BilleteError(Exception):
+    pass
+
+
+class DisponibilidadError(Exception):
     pass
 
 
@@ -63,16 +71,14 @@ class Atm:
         retiro = []
         cant = 0
         count_bills = []
-        try:
-            if monto > self.total:
-                raise CantidadError
-        except CantidadError:
-            return "Error. Monto no válido, ingrese un monto menor"
-        try:
-            if monto % 100 != 0:
-                raise MultiplicidadError
-        except MultiplicidadError:
-            return "Error. Monto no válido, ingrese un monto multiplo de 100"
+        if monto < 0:
+            raise ValueError("Error. Monto negativo no válido, ingrese un monto positivo")
+        if self.total == 0:
+            raise DisponibilidadError("Error. Cajero vacío")
+        if monto > self.total:
+            raise CantidadError("Error. Monto no válido, ingrese un monto menor")
+        if monto % 100 != 0:
+            raise MultiplicidadError("Error. Monto no válido, ingrese un monto multiplo de 100")
         cant = monto//1000
         if disponible[0] != 0 or cant != 0:
             if cant <= disponible[0]:
@@ -135,13 +141,10 @@ class Atm:
             for i in range(len(retiro)):
                 string = (str(retiro[i]) + " billetes de $" + str(valor))
             count_bills.append(string)
-        try:
-            if monto == 0:
-                return count_bills
-            else:
-                raise BilleteError
-        except BilleteError:
-            return "Error. No hay una combinación de billetes que nos permita extraer ese monto"
+        if monto == 0:
+            return count_bills
+        else:
+            raise BilleteError("Error. No hay una combinación de billetes que nos permita extraer ese monto")
 
     def extraer_dinero_cambio(self, monto, percentage):
         disponible = [len(self.billetes1k), len(self.billetes500),
@@ -151,21 +154,16 @@ class Atm:
         retiro = [0, 0, 0, 0]
         cant = 0
         count_bills = []
-        try:
-            if monto > self.total:
-                raise CantidadError
-        except CantidadError:
-            return "Error. Monto no válido, ingrese un monto menor"
-        try:
-            if percentage > 100 or percentage < 0:
-                raise PorcentajeError
-        except PorcentajeError:
-            return "Error. El porcentaje es incorrecto"
-        try:
-            if monto % 100 != 0:
-                raise MultiplicidadError
-        except MultiplicidadError:
-            return "Error. Monto no válido, ingrese un monto multiplo de 100"
+        if monto < 0:
+            raise ValueError("Error. Monto negativo no válido, ingrese un monto positivo")
+        if self.total == 0:
+            raise DisponibilidadError("Error. Cajero vacío")
+        if monto > self.total:
+            raise CantidadError("Error. Monto no válido, ingrese un monto menor")
+        if percentage > 100 or percentage < 0:
+            raise PorcentajeError("Error. El porcentaje es incorrecto")
+        if monto % 100 != 0:
+            raise MultiplicidadError("Error. Monto no válido, ingrese un monto multiplo de 100")
         percentage = math.trunc(monto * percentage / 100)
         while percentage % 100 != 0:
             percentage += 10
@@ -221,75 +219,69 @@ class Atm:
                 retiro[3] += disponible[3]
                 disponible[3] = 0
 
-        try:
-            if monto == 0:
-                cant = monto_cambio//100
-                if disponible[3] != 0 or cant != 0:
-                    if cant <= disponible[3]:
-                        for i in range(cant):
-                            disponible[3] -= 1
-                        retiro[3] += cant
-                        monto_cambio -= cant * 100
-                    else:
-                        monto_cambio -= disponible[3] * 100
-                        retiro[3] += disponible[3]
-                        disponible[3] = 0
-                    valor = 100
-                    string = (str(retiro[3]) + " billetes de $" + str(valor))
-                    count_bills.append(string)
+        if monto == 0:
+            cant = monto_cambio//100
+            if disponible[3] != 0 or cant != 0:
+                if cant <= disponible[3]:
+                    for i in range(cant):
+                        disponible[3] -= 1
+                    retiro[3] += cant
+                    monto_cambio -= cant * 100
+                else:
+                    monto_cambio -= disponible[3] * 100
+                    retiro[3] += disponible[3]
+                    disponible[3] = 0
+                valor = 100
+                string = (str(retiro[3]) + " billetes de $" + str(valor))
+                count_bills.append(string)
 
-                cant = monto_cambio//200
-                if disponible[2] != 0 or cant != 0:
-                    if cant <= disponible[2]:
-                        for i in range(cant):
-                            disponible[2] -= 1
-                        retiro[2] += cant
-                        monto_cambio -= cant * 200
-                    else:
-                        monto_cambio -= disponible[2] * 200
-                        retiro[2] += disponible[2]
-                        disponible[2] = 0
-                    valor = 200
-                    string = (str(retiro[2]) + " billetes de $" + str(valor))
-                    count_bills.append(string)
+            cant = monto_cambio//200
+            if disponible[2] != 0 or cant != 0:
+                if cant <= disponible[2]:
+                    for i in range(cant):
+                        disponible[2] -= 1
+                    retiro[2] += cant
+                    monto_cambio -= cant * 200
+                else:
+                    monto_cambio -= disponible[2] * 200
+                    retiro[2] += disponible[2]
+                    disponible[2] = 0
+                valor = 200
+                string = (str(retiro[2]) + " billetes de $" + str(valor))
+                count_bills.append(string)
 
-                cant = monto_cambio//500
-                if disponible[1] != 0 or cant != 0:
-                    if cant <= disponible[1]:
-                        for i in range(cant):
-                            disponible[1] -= 1
-                        retiro[1] += cant
-                        monto_cambio -= cant * 500
-                    else:
-                        monto_cambio -= disponible[1] * 500
-                        retiro[1] += disponible[1]
-                        disponible[1] = 0
-                    valor = 500
-                    string = (str(retiro[1]) + " billetes de $" + str(valor))
-                    count_bills.append(string)
+            cant = monto_cambio//500
+            if disponible[1] != 0 or cant != 0:
+                if cant <= disponible[1]:
+                    for i in range(cant):
+                        disponible[1] -= 1
+                    retiro[1] += cant
+                    monto_cambio -= cant * 500
+                else:
+                    monto_cambio -= disponible[1] * 500
+                    retiro[1] += disponible[1]
+                    disponible[1] = 0
+                valor = 500
+                string = (str(retiro[1]) + " billetes de $" + str(valor))
+                count_bills.append(string)
 
-                cant = monto_cambio//1000
-                if disponible[0] != 0 or cant != 0:
-                    if cant <= disponible[0]:
-                        for i in range(cant):
-                            disponible[0] -= 1
-                        retiro[0] += cant
-                        monto_cambio -= cant * 1000
-                    else:
-                        monto_cambio -= disponible[0] * 1000
-                        retiro[0] += disponible[0]
-                        disponible[0] = 0
-                    valor = 1000
-                    string = (str(retiro[0]) + " billetes de $" + str(valor))
-                    count_bills.append(string)
-                try:
-                    if monto_cambio == 0:
-                        return count_bills
-                    else:
-                        raise BilleteError
-                except BilleteError:
-                    return "Error. No hay una combinación de billetes que nos permita extraer ese monto"
+            cant = monto_cambio//1000
+            if disponible[0] != 0 or cant != 0:
+                if cant <= disponible[0]:
+                    for i in range(cant):
+                        disponible[0] -= 1
+                    retiro[0] += cant
+                    monto_cambio -= cant * 1000
+                else:
+                    monto_cambio -= disponible[0] * 1000
+                    retiro[0] += disponible[0]
+                    disponible[0] = 0
+                valor = 1000
+                string = (str(retiro[0]) + " billetes de $" + str(valor))
+                count_bills.append(string)
+            if monto_cambio == 0:
+                return count_bills
             else:
-                raise BilleteError
-        except BilleteError:
-            return "Error. No hay una combinación de billetes que nos permita extraer ese monto"
+                raise BilleteError("Error. No hay una combinación de billetes que nos permita extraer ese monto")
+        else:
+            raise BilleteError("Error. No hay una combinación de billetes que nos permita extraer ese monto")

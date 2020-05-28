@@ -3,11 +3,19 @@ class CantidadError(Exception):
     pass
 
 
+class ValueError(Exception):
+    pass
+
+
 class MultiplicidadError(Exception):
     pass
 
 
 class BilleteError(Exception):
+    pass
+
+
+class DisponibilidadError(Exception):
     pass
 
 
@@ -57,16 +65,14 @@ class Atm:
         retiro = []
         cant = 0
         count_bills = []
-        try:
-            if monto > self.total:
-                raise CantidadError
-        except CantidadError:
-            return "Error. Monto no válido, ingrese un monto menor"
-        try:
-            if monto % 100 != 0:
-                raise MultiplicidadError
-        except MultiplicidadError:
-            return "Error. Monto no válido, ingrese un monto multiplo de 100"
+        if monto < 0:
+            raise ValueError("Error. Monto negativo no válido, ingrese un monto positivo")
+        if self.total == 0:
+            raise DisponibilidadError("Error. Cajero vacío")
+        if monto > self.total:
+            raise CantidadError("Error. Monto no válido, ingrese un monto menor")
+        if monto % 100 != 0:
+            raise MultiplicidadError("Error. Monto no válido, ingrese un monto multiplo de 100")
         cant = monto//1000
         if disponible[0] != 0 or cant != 0:
             if cant <= disponible[0]:
@@ -129,10 +135,7 @@ class Atm:
             for i in range(len(retiro)):
                 string = (str(retiro[i]) + " billetes de $" + str(valor))
             count_bills.append(string)
-        try:
-            if monto == 0:
-                return count_bills
-            else:
-                raise BilleteError
-        except BilleteError:
-            return "Error. No hay una combinación de billetes que nos permita extraer ese monto"
+        if monto == 0:
+            return count_bills
+        else:
+            raise BilleteError("Error. No hay una combinación de billetes que nos permita extraer ese monto")
