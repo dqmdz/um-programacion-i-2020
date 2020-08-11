@@ -1,9 +1,10 @@
-from DB import DBConexion, Persona, Actividad, TipoActividad
+from DB import DBConexion
+from DB import Persona, Actividad, TipoActividad
 from DB import PersonaDao, TipoActividadDao
 # from DB import PersonaDao, ActividadDao, TipoActividadDao
 
 
-class Controlador:
+class Broker:
 
     def __init__(self, datos_persona, datos_actividad, caj):
         # Instancias del cajero y base de datos
@@ -64,7 +65,7 @@ class Controlador:
             mensaje = self.usar_cajero()
         except Exception as e:
             resultado = False
-            mensaje = e
+            mensaje = str(e)
         personaDAO = PersonaDao(self.db)
         # def __init__(self, resultado, mensaje, descripcion, actividad):
         # Definicion de los datos de la actividad
@@ -83,3 +84,4 @@ class Controlador:
         per.actividades.append(a)
         # Guarda las actividades de la persona
         personaDAO.guardar(per)
+        self.db.session.close()

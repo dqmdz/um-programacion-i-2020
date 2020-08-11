@@ -26,24 +26,25 @@ class Persona(Base):
     dni = Column(Integer, primary_key=True, autoincrement=False)
     nombre = Column(String(100), nullable=False)
     apellido = Column(String(100))
-    es_empleado = Column(String(10), nullable=False, default="Cliente")
-    actividades = relationship('Actividad', backref="Persona")
+    ocupacion = Column(String(10), nullable=False, default="Cliente")
+    # actividades = relationship('Actividad', backref="Persona")
+    actividades = relationship('Actividad')
 
     def __init__(self, dni, nombre, apellido, empleado):
         self.dni = dni
         self.nombre = nombre
         self.apellido = apellido
         if empleado:
-            self.es_empleado = "Empleado"
+            self.ocupacion = "Empleado"
         else:
-            self.es_empleado = "Cliente"
+            self.ocupacion = "Cliente"
 
     def __repr__(self):
         resultado = ''
         for actividad in self.actividades:
             resultado = resultado + "{}\n".format(actividad)
         salida = 'DNI de la persona: {}\nApellido, nombre: {}, {}.\nEs: {}\n'\
-            .format(self.dni, self.apellido, self.nombre, self.es_empleado)
+            .format(self.dni, self.apellido, self.nombre, self.ocupacion)
         salida += 'Lista de actividades:\n {}\n'\
             .format(resultado)
         return salida
@@ -71,7 +72,7 @@ class Actividad(Base):
     def __repr__(self):
         salida = "Actividad {}:\nTipo de actividad: {}\nRealizada por: {}"\
             .format(self.id, self.tipo_actividad, self.persona_id)
-        salida += "Descripcion: {}\nResultado: {}\nMensaje: {}\n"\
+        salida += "\nDescripcion: {}\nResultado: {}\nMensaje: {}\n"\
             .format(self.descripcion, self.resultado, self.mensaje)
         salida += "Fecha de creacion: {}\n".format(self.fecha_creacion)
         return salida
@@ -100,14 +101,12 @@ class PersonaDao:
 
     def guardar(self, persona):
         if self.buscarPorID(persona.dni) is not None:
-            actDAO = ActividadDao(self.db)
-            obj = persona.actividades[0]
-            obj.persona_id = persona.dni
-            actDAO.guardar(obj)
-            print("El usuario ya existe, guardando actividad")
+            per = self.buscarPorID(persona.dni)
+            per.actividades.append(persona.actividades[0])
+            self.db.session.merge(per)
         else:
             self.db.session.add(persona)
-            self.db.session.commit()
+        self.db.session.commit()
 
     def borrar(self, persona):
         self.db.session.delete(persona)
