@@ -43,5 +43,6 @@ class Cajero_automatico_Test2(unittest.TestCase):
         with self.assertRaises(BilleteError):
             self.caj.extraer_dinero(12100)
 
+
 if __name__ == '__main__':
     unittest.main()
