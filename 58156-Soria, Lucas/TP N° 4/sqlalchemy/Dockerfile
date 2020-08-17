@@ -1,6 +1,6 @@
 FROM python:3.7
 RUN apt-get update && \
-#    /usr/local/bin/python -m pip install --upgrade pip &&\
+    /usr/local/bin/python -m pip install --upgrade pip &&\
     apt-cache search mysql-client && \
     apt install -y default-mysql-client
 RUN mkdir /codigo
