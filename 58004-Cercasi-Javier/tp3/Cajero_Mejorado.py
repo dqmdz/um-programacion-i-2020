@@ -1,4 +1,9 @@
-from Cajero import (Cajero, ExcesoError, MultipoError, NegativoError)
+from Cajero import (Cajero, ExcesoError, MultipoError, NegativoError,
+                    CombinacionError, VacioError)
+
+
+class RangoError(Exception):
+    pass
 
 
 class CajeroMejorado(Cajero):
@@ -8,28 +13,25 @@ class CajeroMejorado(Cajero):
         self.transaccion = True
         n = 0
 
-        try:
-            if pedido < 0:
-                raise NegativoError
-        except NegativoError:
+        if self.suma == 0:
             self.transaccion = False
-            return("Error: No se permiten montos negativos")
+            raise VacioError
 
-        try:
-            if self.suma < pedido:
-                raise ExcesoError
-
-        except ExcesoError:
+        if pedido < 0:
             self.transaccion = False
-            return("Error: Fondos del banco insuficientes")
+            raise NegativoError
 
-        try:
-            if pedido % 100 != 0:
-                raise MultipoError
-
-        except MultipoError:
+        if self.suma < pedido:
             self.transaccion = False
-            return("Error: El monto no es multiplo de 100")
+            raise ExcesoError
+
+        if pedido % 100 != 0:
+            self.transaccion = False
+            raise MultipoError
+
+        if (porcentaje < 0) or (porcentaje > 100):
+            self.transaccion = False
+            raise RangoError
 
         redondeo = a = int((porcentaje/100) * pedido)
 
@@ -39,10 +41,12 @@ class CajeroMejorado(Cajero):
             c = (100 - b) + b
             redondeo = a - b + c
 
+        # Chequearemos si hay resto o no, luego de entregar los
+        # billetes grandes, y se sumaran a la entrega de cambio:
         try:
             resto = self.extraer(pedido - redondeo, redondeo)
             resto += redondeo
-        except:
+        except TypeError:
             resto = redondeo
 
         while (resto != 0) and (self.transaccion is True):
@@ -57,7 +61,7 @@ class CajeroMejorado(Cajero):
                 n += 1
 
                 if n > 5:
-                    return("No es posible realizar esa transaccion")
+                    raise(CombinacionError)
                     exit()
 
                 if (len(self.doscien) != 0) and (resto >= 200):

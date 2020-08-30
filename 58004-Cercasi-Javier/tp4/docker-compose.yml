@@ -1,0 +1,30 @@
+version: "3"
+services:
+    mysql:
+        image: "mysql:8.0"
+        environment:
+        - MYSQL_ROOT_PASSWORD=claveroot
+        - MYSQL_DATABASE=tp4
+        - MYSQL_USER=javi
+        - MYSQL_PASSWORD=javi
+        ports:
+        - "3306:3306"
+
+    myadmin:
+        image: "phpmyadmin/phpmyadmin"
+        environment:
+        - PMA_HOST=mysql:3306
+        links:          # Vincula por dentro los  contenedores
+        - mysql
+        ports:
+        - "8080:80"
+        depends_on:
+        - mysql
+
+    aplicacion:
+        build: sqlalchemy
+        links:
+        - mysql
+        command: ./run.sh       # Arranca por run.sh y no por el CMD del dockerfile
+        depends_on:
+        - mysql
