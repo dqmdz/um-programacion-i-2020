@@ -1,0 +1,46 @@
+Pasos para conectarse a BD:
+
+Mysql local:
+
+1_str_conexion = 'mysql+pymysql://javi:javi@192.168.0.106:3306/tp4'
+
+2_ docker run --name MyEjemplo -e MYSQL_ROOT_PASSWORD=claveroot -e MYSQL_DATABASE=tp4 -e MYSQL_USER=javi -e MYSQL_PASSWORD=javi -p 3306:3306 -d mysql:8.0
+
+3_ docker run --name myadmin -d -e PMA_HOST=192.168.0.106:3306 -p 8080:80 phpmyadmin/phpmyadmin
+
+Docker: 
+
+str_conexion = 'mysql+pymysql://javi:javi@mysql:3306/tp4
+
+
+version: "3"
+services:
+    mysql:
+        image: "mysql:8.0"
+        environment:
+        - MYSQL_ROOT_PASSWORD=claveroot
+        - MYSQL_DATABASE=tp4
+        - MYSQL_USER=javi
+        - MYSQL_PASSWORD=javi
+        ports:
+        - "3306:3306"
+
+    myadmin:
+        image: "phpmyadmin/phpmyadmin"
+        environment:
+        - PMA_HOST=mysql:3306
+        links:          # Vincula por dentro los  contenedores
+        - mysql
+        ports:
+        - "8080:80"
+        depends_on:
+        - mysql
+
+    aplicacion:
+        build: sqlalchemy
+        links:
+        - mysql
+        command: ./run.sh       # Arranca por run.sh y no por el CMD del dockerfile
+        depends_on:
+        - mysql
+
