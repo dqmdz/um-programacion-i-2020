@@ -1,0 +1,305 @@
+/* Estilos globales */
+body {
+    color: #323232;
+    margin: 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    background-color: #fff;
+}
+
+.header {
+    height: 50px;
+    width: 100%;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #3c89ff;
+}
+
+button img {
+    height: 20px;
+    padding: 10px;
+}
+
+
+/* Mostrar el logo de IBM */
+.logo {
+    float: left;
+    height: 32px;
+    padding: 10px 15px;
+}
+
+
+/* Configuracion de la parte izquierda del header */
+.izquierda {
+    float: left;
+    height: inherit;
+}
+
+.izquierda nav {
+    display: inline-block;
+}
+
+.izquierda a {
+    padding: 10px;
+    color: #323232;
+}
+
+.izquierda a:hover {
+    border-bottom: solid 5px;
+    color: rgb(9, 71, 165);
+}
+
+.izquierda ul {
+    margin: 16px 0;
+}
+
+.izquierda li {
+    display: inline;
+}
+
+
+/* Configuracion de la parte derecha del header */
+.derecha {
+    float: right;
+    height: inherit;
+}
+
+.derecha nav {
+    display: inline-block;
+    height: inherit;
+}
+
+.derecha li {
+    display: inline-block;
+}
+
+.derecha img {
+    height: 20px;
+    padding: 10px;
+}
+
+.buscar {
+    display: inline-block;
+    height: 100%;
+    border: 0.5px solid rgb(200, 200, 200);
+}
+
+.buscar:hover {
+    border: 0.5px solid rgb(9, 71, 165);
+    color: rgb(9, 71, 165);
+}
+
+.buscar input[type=text] {
+    font-family: inherit;
+    border: none;   
+    height: inherit;
+    float: left;
+}
+  
+.buscar button {
+    background: #fff;
+    height: 100%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+  
+.buscar::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+
+/* Panel con foto */
+.panel {
+    position: relative;
+    width: 100%;
+    height: 25rem;
+}
+
+.texto {
+    color: #fff;
+    position: absolute;
+    top: 0;
+    margin: 0;
+    width: 41.66667%;
+    padding: 20px 15px;
+}
+
+.texto h1 {
+    font-weight: 400;
+    font-size: 2.5rem;
+}
+
+.texto a {
+    color: #fff;
+}
+
+.texto a:hover {
+    text-decoration: underline;
+}
+
+
+/* Apartados */
+.apartado {
+    width: 100%;
+}
+
+.apartado h1{
+    line-height: 2.1875rem;
+    font-size: 1.875rem;
+    font-weight: 400;
+    padding: 25px 110px 20px;
+}
+
+.link-apartado{
+    color: #3c89ff;
+    padding: 25px 110px 20px;
+    text-decoration: none;
+}
+
+.link-apartado:hover{
+    text-decoration: underline;
+}
+
+
+/* Apartado destacados */
+.destacado {
+    background-color: #f4f4f4;
+}
+
+
+/* Secciones */
+.seccion {
+    width: 80%;
+    margin: 0px 10% 0px 10%;
+    padding: 10px 0px 30px 0px;
+}
+
+.tarjeta {
+    width: 25%;
+    display: inline-flex;
+}
+
+.tarjeta h2 {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.625rem;
+    color: #5a5a5a;
+    font-style: italic;
+}
+
+.contenido {
+    width: 100%;
+    padding: 0px 10px;
+}
+
+.contenido img {
+    width: 100%;
+}
+
+
+/* Productos */
+.productos {
+    background-color: #f9f9f9;
+    margin: 0;
+    padding-left: 15%;
+}
+
+.productos h1 {
+    margin: 0;
+    font-size: 1.875rem;
+    line-height: 2.1875rem;
+    font-weight: 400;
+    padding: 30px 0;
+}
+
+.marketplace {
+    height: 50px;
+    width: 50%;
+    margin: 0;
+}
+
+.marketplace input[type=text]{
+    width: 90%;
+}
+
+.marketplace button{
+    width: 10%;
+}
+
+
+/* Unirse */
+.unirse {
+    background-color: #ffffff;
+}
+
+
+/* Casi-footer */
+.casi-footer {
+    background-color: #f9f9f9;
+}
+
+
+/* Footer */
+.footer {
+    background-color: #f9f9f9;
+}
+
+
+/* Boton de la esquina inferior derecha */
+.hablar {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #0062FF;
+    border: 1px solid #fff;
+    border-radius: 5rem;
+    padding: 10px;
+    margin: 0;
+    z-index: 1;
+}
+
+.hablar:hover{
+    background-color: #0354E9;
+    cursor: pointer;
+}
+
+.hablar p {
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+
+/* Display en pantalla chica */
+@media only screen and (max-width: 1000px) {
+    .izquierda {
+      display: none;
+    }
+
+    .apartado h1 {
+        padding: 25px 20px 20px;
+    }
+    
+    .link-apartado {
+        padding: 25px 20px 20px;
+    }
+
+    .tarjeta {
+        width: 50%;
+    }
+}
+
+
+/* Arrglar la disposicion de las tarjetas*/
