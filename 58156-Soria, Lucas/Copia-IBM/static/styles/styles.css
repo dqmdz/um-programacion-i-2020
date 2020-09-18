@@ -6,11 +6,6 @@ body {
     background-color: #fff;
 }
 
-.header {
-    height: 50px;
-    width: 100%;
-}
-
 ul {
     list-style-type: none;
     padding: 0;
@@ -25,6 +20,17 @@ a {
 button img {
     height: 20px;
     padding: 10px;
+}
+
+hr {
+    display: none;
+}
+
+
+/* Header */
+.header {
+    height: 50px;
+    width: 100%;
 }
 
 
@@ -130,8 +136,8 @@ button img {
     position: absolute;
     top: 0;
     margin: 0;
-    width: 41.66667%;
-    padding: 20px 15px;
+    width: 25%;
+    padding: 40px 15px;
 }
 
 .texto h1 {
@@ -148,6 +154,11 @@ button img {
 }
 
 
+/* Padding del cuerpo */
+.padding {
+    padding: 0px 10% 0px 10%;
+}
+
 /* Apartados */
 .apartado {
     width: 100%;
@@ -157,12 +168,10 @@ button img {
     line-height: 2.1875rem;
     font-size: 1.875rem;
     font-weight: 400;
-    padding: 25px 110px 20px;
 }
 
 .link-apartado{
     color: #3c89ff;
-    padding: 25px 110px 20px;
     text-decoration: none;
 }
 
@@ -179,8 +188,7 @@ button img {
 
 /* Secciones */
 .seccion {
-    width: 80%;
-    margin: 0px 10% 0px 10%;
+    width: 100%;
     padding: 10px 0px 30px 0px;
 }
 
@@ -211,7 +219,7 @@ button img {
 .productos {
     background-color: #f9f9f9;
     margin: 0;
-    padding-left: 15%;
+    padding-left: 10%;
 }
 
 .productos h1 {
@@ -222,10 +230,23 @@ button img {
     padding: 30px 0;
 }
 
+.vea {
+    height: 40px;
+    position: relative;
+}
+
+.vea a {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: 30px;
+}
+
 .marketplace {
-    height: 50px;
+    height: 100%;
     width: 50%;
     margin: 0;
+    float: left;
 }
 
 .marketplace input[type=text]{
@@ -236,22 +257,108 @@ button img {
     width: 10%;
 }
 
+.lista {
+    width: 75%;
+    padding-bottom: 50px;
+}
+
+.lista p {
+    padding-top: 60px;
+    padding-bottom: 16px;
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.625rem;
+}
+
+.lista ul {
+    columns: 3;
+}
+
+.lista li {
+    padding: 10px;
+}
+
 
 /* Unirse */
 .unirse {
     background-color: #ffffff;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.5625rem;
+}
+
+.unirse p {
+    display: inline-block;
+    font-weight: 600;
+    width: 33%;
 }
 
 
-/* Casi-footer */
-.casi-footer {
+/* Final */
+.fin {
     background-color: #f9f9f9;
+    margin: 0;
+    top: 0;
+    font-size: 1rem;
+    line-height: 1.625rem;
 }
 
+.fin p {
+    font-weight: 600;
+}
 
-/* Footer */
+.fin a {
+    color: #5a5a5a;
+}
+
+.fin a:hover {
+    color: #3b6caa;
+    text-decoration: underline;
+}
+
+.opcion {
+    margin: 0;
+    display: inline-block;
+    vertical-align: top;
+    width: 25%;
+}
+
+.contenedor-menu {
+    position: relative;
+    right: 0;
+    height: 120px;
+}
+
+.menu {
+    position: absolute;
+    right: 0;
+    width: 25%;
+}
+
+.menu select {
+    width: 100%;
+    height: 40px;
+    background-color: #ffffff;
+    border: 1px solid #aaa;
+}
+
+.divisor {
+    border: 0;
+    border-top: 1px;
+    font-size: 1rem;
+    border-color: #c7c7c7;
+    border-style: solid;
+}
+
 .footer {
-    background-color: #f9f9f9;
+    padding: 11px;
+}
+
+.footer a {
+    padding-right: 20px;
 }
 
 
@@ -288,18 +395,11 @@ button img {
       display: none;
     }
 
-    .apartado h1 {
-        padding: 25px 20px 20px;
-    }
-    
-    .link-apartado {
-        padding: 25px 20px 20px;
-    }
-
     .tarjeta {
         width: 50%;
     }
+
+    .lista ul {
+        columns: 1;
+    }
 }
-
-
-/* Arrglar la disposicion de las tarjetas*/
