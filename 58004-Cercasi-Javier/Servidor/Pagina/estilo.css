@@ -1,0 +1,115 @@
+
+
+.contenido {
+    display: flex;
+    flex-direction: column;
+}
+
+.barra {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo {
+    width: 80px;
+    height: 50px;
+    margin-left: 5px;
+}
+
+.navegacion a{
+    color: black;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 18px;
+    font-size: 19px;
+    margin-bottom: 0px;
+}
+
+
+.imagen1 {
+    background-image: url("img/banner.jpg");
+    background-size: cover;
+    background-position: center;
+    height: 350px;
+    width: auto;
+    display: flex;
+    margin-left: -10px;
+    margin-right: -10px;
+    font-family: Arial,sans-serif;
+   
+}
+
+.imagen1 h1 {
+    color: rgb(255, 255, 255);
+    font-size: 2.5rem;
+    width: 30%;
+    margin-top: 50px;
+    margin-left: 20px;
+    font-weight: 400;
+}
+
+.imagen1 p{
+
+    color: white;
+    position: absolute;
+    padding: 150px 20px;
+    width: 40%;
+    line-height: 1.625rem;
+    font-size: 1rem;
+}
+
+.imagen1 a{
+    margin: 220px 20px;
+    color: white;
+    position: absolute;
+    text-decoration: none;
+}
+
+.apartado {
+    width: 100%;
+}
+.apartado h1{
+    color: #323232;
+    margin: 50px 15px 10px 15px;
+    font-size: 1.875rem;
+    line-height: 2.1875rem;
+    font-weight: 400;
+    font-family:"Helvetica Neue",Arial,sans-serif;
+}
+
+.seccion {
+    width: 102%;
+    padding: 10px 0px 30px 15px;
+    display: inline-flex;
+}
+
+.cuarto {
+    width: 25%;
+    padding: 0 15px;
+}
+
+.cuarto h2{
+    color: #5a5a5a;
+    padding-bottom: 20px!important;
+    font-style: italic;
+    font-family: Arial,sans-serif;
+    font-size: 1rem;
+    font-weight: 200;
+    line-height: 1rem;
+    padding: 0 0 15px;
+}
+
+.cuarto img{
+    width: 100%;
+}
+.cuarto a{
+    color: #3c89ff;
+}
+.cuarto p{
+    font-family: ibm-plex-sans,"Helvetica Neue",Arial,sans-serif;
+    font-size: 1rem;
+    line-height: 1.625rem;
+    padding: 0 0 15px;
+    color: #5a5a5a;
+}
