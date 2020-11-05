@@ -12,4 +12,4 @@ import { FormsModule } from "@angular/forms";
         FormsModule
     ]
 })
-export class CalculadoracambioModule { }
+export class CalculadoraCambioModule { }
