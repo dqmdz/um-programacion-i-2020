@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mysql:
+    image: "mysql:8.0"
+    environment:
+      - MYSQL_ROOT_PASSWORD=claveroot
+      - MYSQL_DATABASE=sqlalchemy
+      - MYSQL_USER=fernando
+      - MYSQL_PASSWORD=fernando
+    ports:
+      - "3306:3306"
+
+  myadmin:
+    image: "phpmyadmin/phpmyadmin"
+    environment:
+      - PMA_HOST=mysql:3306
+    links:
+      - mysql
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+
+  aplicacion:
+    build: sqlalchemy
+    links:
+      - mysql
+    command: ./run.sh
+    depends_on:
+      - mysql

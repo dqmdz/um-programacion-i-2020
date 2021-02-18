@@ -1,0 +1,28 @@
+body {
+    background-color: #D2B290;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+div {
+    padding: 5px;
+    margin-top: 20px;
+    margin-bottom:  20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    color: #fafafa;
+    width: 50%;
+    display: block;
+}
+
+.titulo {
+    background-color: #8A3036;
+    text-align: center;
+}
+
+.cuerpo {
+    background-color: #888994;
+    height: auto;
+    text-align: justify;   
+    padding: 20px;
+}

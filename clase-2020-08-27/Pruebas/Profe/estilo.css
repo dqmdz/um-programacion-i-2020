@@ -1,0 +1,49 @@
+h1 {
+    color: yellowgreen;
+    font-size: xx-small; 
+ }
+h2 {
+   color: aqua;
+   font-size: xx-large; 
+}
+.personal1 {
+    color: violet;
+}
+.personal2 {
+    color: green;
+}
+.imagen1 {
+    width: 400px;
+    height: 615px;
+    background: url("losestudiantes.jpg");
+    display: inline-block;
+    background-size: contain;
+}
+.tabla {
+    display: table;
+    border: 1px solid;
+    border-color: blue;
+}
+.tabla-th {
+    border: 1px dashed;
+    padding: 40px;
+}
+.estilo-texto {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: gray;
+    font-size: large;
+    background: aqua important!;
+}
+.estilo-centrado {
+    text-align: center;
+    background: blue;
+}
+.tabla-td-10 {
+    width: 10%;
+}
+.tabla-td-50 {
+    width: 50%;
+}
+.tabla-td-90 {
+    width: 90%;
+}
